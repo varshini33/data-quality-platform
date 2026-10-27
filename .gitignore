@@ -1,0 +1,33 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+.databrickscfg
+*.pem
+*.key
+credentials.json
+kaggle.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local data and outputs
+data/
+artifacts/
+outputs/
+*.csv
+*.parquet
+*.delta
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
