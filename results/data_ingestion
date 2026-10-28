@@ -1,0 +1,46 @@
+PS C:\Users\Hamsaa Varshini.B\git_projects\data-quality-platform> .\scripts\upload_to_s3.ps1 -BucketName "olist-data-quality-s3"           
+   
+[1/6] Checking AWS identity...                                                                                                              
+[2/6] Checking Kaggle authentication...                                                                                                     
+[3/6] Downloading Kaggle dataset 'olistbr/brazilian-ecommerce'...                                                                           
+Dataset URL: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce                                                                    
+License(s): CC-BY-NC-SA-4.0                                                                                                                 
+Downloading brazilian-ecommerce.zip to C:\Users\HAMSAA~1.B\AppData\Local\Temp\olist-s3-ingest-20261026T185014\download                      
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████| 42.6M/42.6M [00:04<00:00, 10.2MB/s]
+
+[4/6] Extracting dataset to temporary storage...
+Found 9 CSV files:
+  olist_customers_dataset.csv (90,33,957 bytes)
+  olist_geolocation_dataset.csv (6,12,73,883 bytes)
+  olist_orders_dataset.csv (1,76,54,914 bytes)
+  olist_order_items_dataset.csv (1,54,38,671 bytes)
+  olist_order_payments_dataset.csv (57,77,138 bytes)
+  olist_order_reviews_dataset.csv (1,44,51,670 bytes)
+  olist_products_dataset.csv (23,79,446 bytes)
+  olist_sellers_dataset.csv (1,74,703 bytes)
+  product_category_name_translation.csv (2,613 bytes)
+[5/6] Uploading CSV files to s3://olist-data-quality-s3/raw/olist/initial/ ...
+  Uploaded olist_customers_dataset.csv
+  Uploaded olist_geolocation_dataset.csv
+  Uploaded olist_orders_dataset.csv
+  Uploaded olist_order_items_dataset.csv
+  Uploaded olist_order_payments_dataset.csv
+  Uploaded olist_order_reviews_dataset.csv
+  Uploaded olist_products_dataset.csv
+  Uploaded olist_sellers_dataset.csv
+  Uploaded product_category_name_translation.csv
+[6/6] Uploading manifest and verifying S3 objects...
+2026-10-26 18:50:28    9033957 raw/olist/initial/olist_customers_dataset.csv
+2026-10-26 18:50:33   61273883 raw/olist/initial/olist_geolocation_dataset.csv
+2026-10-26 18:50:46   15438671 raw/olist/initial/olist_order_items_dataset.csv
+2026-10-26 18:50:55    5777138 raw/olist/initial/olist_order_payments_dataset.csv
+2026-10-26 18:50:57   14451670 raw/olist/initial/olist_order_reviews_dataset.csv
+2026-10-26 18:50:40   17654914 raw/olist/initial/olist_orders_dataset.csv
+2026-10-26 18:51:05    2379446 raw/olist/initial/olist_products_dataset.csv
+2026-10-26 18:51:07     174703 raw/olist/initial/olist_sellers_dataset.csv
+2026-10-26 18:51:09       2613 raw/olist/initial/product_category_name_translation.csv
+
+SUCCESS: Uploaded 9 CSV files.
+Data destination: s3://olist-data-quality-s3/raw/olist/initial/
+Manifest:         s3://olist-data-quality-s3/metadata/ingestion-manifests/olist-20261026T185014.json
+Note: Kaggle's Olist dataset is a static snapshot, not a live data feed.
