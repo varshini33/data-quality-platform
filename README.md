@@ -1,58 +1,90 @@
-# Data Quality & Lakehouse Management Platform
+# Databricks Data Quality & Lakehouse Management Platform
 
-A learning/portfolio project that loads the Olist Brazilian e-commerce dataset into Databricks Bronze Delta tables, applies order-level quality checks, and writes clean Silver and quarantine tables.
+## Overview
 
-## Configuration
+A data engineering portfolio project that uses Databricks, Apache Spark, Delta tables, and AWS S3 to build a data pipeline with data quality validation and business reporting.
 
-1. Copy `.env.example` to `.env`.
-2. Set `AWS_REGION` to the real region of your S3 bucket.
-3. Review the Databricks profile, catalog, schema, bucket, and data-quality settings.
-4. Keep `.env` and all credentials out of Git. Authentication is provided by the AWS CLI and Databricks CLI profiles; do not put access keys or Databricks tokens in `.env`.
+The project uses the Brazilian E-Commerce Public Dataset by Olist.
 
-## Setup (Windows PowerShell)
+## Architecture
+
+**AWS S3 → Bronze → Silver → Gold → Data Quality Audit**
+
+- **AWS S3:** Stores the raw Olist dataset.
+- **Bronze:** Stores ingested source tables.
+- **Silver:** Cleans and validates order data and separates quarantined records.
+- **Gold:** Produces business-level sales, payment, order-status, and delivery metrics.
+- **Data Quality Audit:** Records validation results, failed-record counts, and run timestamps.
+
+## Technology Stack
+
+- Python
+- PySpark
+- Databricks
+- Delta Lake
+- AWS S3
+- AWS CLI
+- Databricks CLI
+- pytest
+- Git and GitHub
+
+## Data Quality Checks
+
+The quality framework checks:
+
+- Null and duplicate order IDs
+- Allowed order statuses
+- Missing purchase timestamps
+- Delivery timestamps occurring before purchase timestamps
+- Missing order IDs in item and payment data
+- Positive prices and payment values
+- Non-negative freight values
+
+Each run records its results in:
+
+`olist_data_quality.gold.data_quality_audit`
+
+Failed checks are recorded in the audit table, and the runner exits with a non-zero status if failures are detected.
+
+## Running the Project
+
+Activate the project environment if needed and run commands from the repository root.
+
+Run the quality checks:
 
 ```powershell
-cd "C:\Users\Hamsaa Varshini.B\git_projects\data-quality-platform"
-Copy-Item .env.example .env
-.\.venv\Scripts\Activate.ps1
-python -m pip install -e .
+uv run python -u -m data_quality.quality.run_quality_checks
 ```
 
-Edit `.env` before running the pipeline. Ensure the virtual environment uses Python 3.12.
-
-## Run tests
-
-Unit tests do not require cloud access:
+Run automated tests:
 
 ```powershell
-python -m pytest -q
+uv run pytest -q
 ```
 
-Live Databricks integration tests are skipped by default. Enable them for the current PowerShell session only when you want to query your workspace:
+Check Python syntax:
 
 ```powershell
-$env:RUN_DATABRICKS_INTEGRATION = "true"
-python -m pytest -q
+uv run python -m compileall src
 ```
 
-## Run the pipeline
+## Business Outputs
 
-Run Bronze ingestion first, then Silver cleaning:
+The Gold layer includes:
 
-```powershell
-python -m data_quality.bronze.inspect_environment
-python -m data_quality.bronze.bronze_ingestion
-python -m data_quality.silver.orders_cleanup
-```
+- `monthly_sales`
+- `order_status_summary`
+- `payment_type_summary`
+- `delivery_performance`
 
-**Important:** Bronze ingestion is a full refresh and overwrites the configured Bronze tables. Silver cleaning also overwrites the configured Silver and quarantine tables on each run.
+## Security
 
-## Upload/refresh the source data
+Credentials are configured locally and should not be committed to Git. Keep `.env` files, access tokens, and other secrets out of the repository.
 
-The upload script reads `S3_BUCKET`, `S3_RAW_PREFIX`, `S3_MANIFEST_PREFIX`, and optionally `KAGGLE_DATASET_ID` from `.env`:
+## Future Improvements
 
-```powershell
-.\scripts\upload_to_s3.ps1
-```
-
-Requires the AWS CLI and Kaggle CLI to be installed and authenticated. The Olist Kaggle dataset is a static snapshot, not a live feed.
+- Schedule pipeline execution
+- Add more data quality rules and alerts
+- Add automated pipeline monitoring
+- Build dashboards from Gold tables
+- Add incremental ingestion and recovery capabilities

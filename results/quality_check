@@ -1,0 +1,30 @@
+(data-quality-platform) PS C:\Users\Hamsaa Varshini.B\git_projects\data-quality-platform> uv run python -u -m data_quality.quality.run_quality_checks                                                                                                       
+[PASS] `olist_data_quality`.`silver`.`orders` | order_id_not_null | violations=0
+[PASS] `olist_data_quality`.`silver`.`orders` | order_id_unique | violations=0
+[PASS] `olist_data_quality`.`silver`.`orders` | order_status_allowed | violations=0
+[PASS] `olist_data_quality`.`silver`.`orders` | purchase_timestamp_not_null | violations=0
+[PASS] `olist_data_quality`.`silver`.`orders` | delivery_not_before_purchase | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_items_dataset` | item_order_id_not_null | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_items_dataset` | item_price_positive | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_items_dataset` | freight_value_non_negative | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_payments_dataset` | payment_order_id_not_null | violations=0
+[FAIL] `olist_data_quality`.`bronze`.`olist_order_payments_dataset` | payment_value_positive | violations=9
+
+Quality run ID: cd26f4b9-a97b-4b13-97ff-087da31e3db1
+Checks executed: 10
+Failed checks: 1
+Audit table: `olist_data_quality`.`gold`.`data_quality_audit`
++------------------------------------+--------------------------+------------------------------------------------------------+----------------------------+--------------+------+
+|run_id                              |run_timestamp_utc         |table_name                                                  |check_name                  |failed_records|status|
++------------------------------------+--------------------------+------------------------------------------------------------+----------------------------+--------------+------+
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:22.575478|`olist_data_quality`.`bronze`.`olist_order_items_dataset`   |freight_value_non_negative  |0             |PASS  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:21.163409|`olist_data_quality`.`bronze`.`olist_order_items_dataset`   |item_order_id_not_null      |0             |PASS  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:21.860908|`olist_data_quality`.`bronze`.`olist_order_items_dataset`   |item_price_positive         |0             |PASS  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:23.248756|`olist_data_quality`.`bronze`.`olist_order_payments_dataset`|payment_order_id_not_null   |0             |PASS  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:24.47582 |`olist_data_quality`.`bronze`.`olist_order_payments_dataset`|payment_value_positive      |9             |FAIL  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:20.490943|`olist_data_quality`.`silver`.`orders`                      |delivery_not_before_purchase|0             |PASS  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:16.942495|`olist_data_quality`.`silver`.`orders`                      |order_id_not_null           |0             |PASS  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:18.370541|`olist_data_quality`.`silver`.`orders`                      |order_id_unique             |0             |PASS  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:19.044597|`olist_data_quality`.`silver`.`orders`                      |order_status_allowed        |0             |PASS  |
+|cd26f4b9-a97b-4b13-97ff-087da31e3db1|2026-10-28 18:50:19.726207|`olist_data_quality`.`silver`.`orders`                      |purchase_timestamp_not_null |0             |PASS  |
++------------------------------------+--------------------------+------------------------------------------------------------+----------------------------+--------------+------+
