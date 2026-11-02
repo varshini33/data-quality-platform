@@ -182,8 +182,8 @@ def main() -> None:
         check_not_null(payments, "order_id"),
     )
     run_check(
-        results, run_id, payments_name, "payment_value_positive",
-        check_positive(payments, "payment_value"),
+        results, run_id, payments_name, "payment_value_non_negative",
+        check_non_negative(payments, "payment_value"),
     )
 
     # Persist results before returning a failure exit code.
