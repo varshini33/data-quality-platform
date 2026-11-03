@@ -1,0 +1,182 @@
+(data-quality-platform) PS C:\Users\Hamsaa Varshini.B\git_projects\data-quality-platform> uv run python -u -m data_quality.pipeline
+Pipeline run ID: 3a9d869b-a7e7-48ef-bb39-66a2e8683339
++------------------------+---------+-------+
+|col_name                |data_type|comment|
++------------------------+---------+-------+
+|pipeline_run_id         |string   |NULL   |
+|stage_name              |string   |NULL   |
+|start_time_utc          |timestamp|NULL   |
+|end_time_utc            |timestamp|NULL   |
+|duration_seconds        |double   |NULL   |
+|status                  |string   |NULL   |
+|error_message           |string   |NULL   |
+|# Clustering Information|         |       |
+|# col_name              |data_type|comment|
++------------------------+---------+-------+
+
+Pipeline log table ready: `olist_data_quality`.`gold`.`pipeline_run_log`
+
+======================================================================
+STARTING: Bronze ingestion
+Module: data_quality.bronze.bronze_ingestion
+======================================================================
+Connected to Databricks. Target: olist_data_quality.bronze
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/olist_customers_dataset.csv
+Created/updated `olist_data_quality`.`bronze`.`olist_customers_dataset`: 99,441 rows
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/olist_geolocation_dataset.csv
+Created/updated `olist_data_quality`.`bronze`.`olist_geolocation_dataset`: 1,000,163 rows
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/olist_order_items_dataset.csv
+Created/updated `olist_data_quality`.`bronze`.`olist_order_items_dataset`: 112,650 rows
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/olist_order_payments_dataset.csv
+Created/updated `olist_data_quality`.`bronze`.`olist_order_payments_dataset`: 103,886 rows
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/olist_order_reviews_dataset.csv
+Created/updated `olist_data_quality`.`bronze`.`olist_order_reviews_dataset`: 104,162 rows
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/olist_orders_dataset.csv
+Created/updated `olist_data_quality`.`bronze`.`olist_orders_dataset`: 99,441 rows
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/olist_products_dataset.csv
+Created/updated `olist_data_quality`.`bronze`.`olist_products_dataset`: 32,951 rows
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/olist_sellers_dataset.csv
+Created/updated `olist_data_quality`.`bronze`.`olist_sellers_dataset`: 3,095 rows
+
+Reading source: s3://olist-data-quality-s3/raw/olist/initial/product_category_name_translation.csv
+Created/updated `olist_data_quality`.`bronze`.`product_category_name_translation`: 71 rows
+
+========== BRONZE INGESTION SUMMARY ==========
+olist_customers_dataset.csv | olist_data_quality.bronze.olist_customers_dataset | 99,441 rows | SUCCESS
+olist_geolocation_dataset.csv | olist_data_quality.bronze.olist_geolocation_dataset | 1,000,163 rows | SUCCESS
+olist_order_items_dataset.csv | olist_data_quality.bronze.olist_order_items_dataset | 112,650 rows | SUCCESS
+olist_order_payments_dataset.csv | olist_data_quality.bronze.olist_order_payments_dataset | 103,886 rows | SUCCESS
+olist_order_reviews_dataset.csv | olist_data_quality.bronze.olist_order_reviews_dataset | 104,162 rows | SUCCESS
+olist_orders_dataset.csv | olist_data_quality.bronze.olist_orders_dataset | 99,441 rows | SUCCESS
+olist_products_dataset.csv | olist_data_quality.bronze.olist_products_dataset | 32,951 rows | SUCCESS
+olist_sellers_dataset.csv | olist_data_quality.bronze.olist_sellers_dataset | 3,095 rows | SUCCESS
+product_category_name_translation.csv | olist_data_quality.bronze.product_category_name_translation | 71 rows | SUCCESS
+Files processed: 9
+
+[SUCCESS] Bronze ingestion completed in 49.42 seconds.
+
+======================================================================
+STARTING: Silver transformation
+Module: data_quality.silver.orders_cleanup
+======================================================================
+Reading Bronze table: olist_data_quality.bronze.olist_orders_dataset
+
+========== SILVER QUALITY SUMMARY ==========
+Bronze rows:     99,441
+Silver rows:     99,441
+Quarantined:     0
+Reconciled:      99,441
+
+Quarantine reasons:
++------------------+-----+
+|_quarantine_reason|count|
++------------------+-----+
++------------------+-----+
+
+
+Silver orders sample:
++--------------------------------+--------------------------------+------------+------------------------+-------------------+----------------------------+-----------------------------+-----------------------------+------------------------+--------------------------+---------------+--------------------------+
+|order_id                        |customer_id                     |order_status|order_purchase_timestamp|order_approved_at  |order_delivered_carrier_date|order_delivered_customer_date|order_estimated_delivery_date|_source_file            |_ingested_at              |_ingestion_date|_quality_checked_at       |
++--------------------------------+--------------------------------+------------+------------------------+-------------------+----------------------------+-----------------------------+-----------------------------+------------------------+--------------------------+---------------+--------------------------+
+|00010242fe8c5a6d1ba2dd792cb16214|3ce436f183e68e07877b285a838db11a|delivered   |2017-09-13 08:59:02     |2017-09-13 09:45:35|2017-09-19 18:34:16         |2017-09-20 23:43:48          |2017-09-29 00:00:00          |olist_orders_dataset.csv|2026-11-03 03:14:35.842297|2026-11-03     |2026-11-03 03:15:03.276109|
+|00018f77f2f0320c557190d7a144bdd3|f6dd3ec061db4e3987629fe6b26e5cce|delivered   |2017-04-26 10:53:06     |2017-04-26 11:05:13|2017-05-04 14:35:00         |2017-05-12 16:04:24          |2017-05-15 00:00:00          |olist_orders_dataset.csv|2026-11-03 03:14:35.842297|2026-11-03     |2026-11-03 03:15:03.276109|
+|000229ec398224ef6ca0657da4fc703e|6489ae5e4333f3693df5ad4372dab6d3|delivered   |2018-01-14 14:33:31     |2018-01-14 14:48:30|2018-01-16 12:36:48         |2018-01-22 13:19:16          |2018-02-05 00:00:00          |olist_orders_dataset.csv|2026-11-03 03:14:35.842297|2026-11-03     |2026-11-03 03:15:03.276109|
+|00024acbcdf0a6daa1e931b038114c75|d4eb9395c8c0431ee92fce09860c5a06|delivered   |2018-08-08 10:00:35     |2018-08-08 10:10:18|2018-08-10 13:28:00         |2018-08-14 13:32:39          |2018-08-20 00:00:00          |olist_orders_dataset.csv|2026-11-03 03:14:35.842297|2026-11-03     |2026-11-03 03:15:03.276109|
+|00042b26cf59d7ce69dfabb4e55b4fd9|58dbd0b2d70206bf40e62cd34e84d795|delivered   |2017-02-04 13:57:51     |2017-02-04 14:10:13|2017-02-16 09:46:09         |2017-03-01 16:42:31          |2017-03-17 00:00:00          |olist_orders_dataset.csv|2026-11-03 03:14:35.842297|2026-11-03     |2026-11-03 03:15:03.276109|
++--------------------------------+--------------------------------+------------+------------------------+-------------------+----------------------------+-----------------------------+-----------------------------+------------------------+--------------------------+---------------+--------------------------+
+only showing top 5 rows
+Silver order cleaning completed successfully.
+
+[SUCCESS] Silver transformation completed in 20.27 seconds.
+
+======================================================================
+STARTING: Data quality checks
+Module: data_quality.quality.run_quality_checks
+======================================================================
+[PASS] `olist_data_quality`.`silver`.`orders` | order_id_not_null | violations=0
+[PASS] `olist_data_quality`.`silver`.`orders` | order_id_unique | violations=0
+[PASS] `olist_data_quality`.`silver`.`orders` | order_status_allowed | violations=0
+[PASS] `olist_data_quality`.`silver`.`orders` | purchase_timestamp_not_null | violations=0
+[PASS] `olist_data_quality`.`silver`.`orders` | delivery_not_before_purchase | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_items_dataset` | item_order_id_not_null | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_items_dataset` | item_price_positive | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_items_dataset` | freight_value_non_negative | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_payments_dataset` | payment_order_id_not_null | violations=0
+[PASS] `olist_data_quality`.`bronze`.`olist_order_payments_dataset` | payment_value_non_negative | violations=0
+
+Quality run ID: e5725ef6-91fa-4920-b4d5-0a50460825b2
+Checks executed: 10
+Failed checks: 0
+Audit table: `olist_data_quality`.`gold`.`data_quality_audit`
++------------------------------------+--------------------------+------------------------------------------------------------+----------------------------+--------------+------+
+|run_id                              |run_timestamp_utc         |table_name                                                  |check_name             |failed_records|status|
++------------------------------------+--------------------------+------------------------------------------------------------+----------------------------+--------------+------+
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:34.159172|`olist_data_quality`.`bronze`.`olist_order_items_dataset`   |freight_value_non_negative  |0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:32.423273|`olist_data_quality`.`bronze`.`olist_order_items_dataset`   |item_order_id_not_null      |0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:33.521483|`olist_data_quality`.`bronze`.`olist_order_items_dataset`   |item_price_positive         |0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:34.768655|`olist_data_quality`.`bronze`.`olist_order_payments_dataset`|payment_order_id_not_null   |0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:35.614699|`olist_data_quality`.`bronze`.`olist_order_payments_dataset`|payment_value_non_negative  |0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:30.512072|`olist_data_quality`.`silver`.`orders`                      |delivery_not_before_purchase|0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:27.388571|`olist_data_quality`.`silver`.`orders`                      |order_id_not_null           |0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:28.613675|`olist_data_quality`.`silver`.`orders`                      |order_id_unique             |0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:29.240929|`olist_data_quality`.`silver`.`orders`                      |order_status_allowed        |0             |PASS  |
+|e5725ef6-91fa-4920-b4d5-0a50460825b2|2026-11-02 21:45:29.853993|`olist_data_quality`.`silver`.`orders`                      |purchase_timestamp_not_null |0             |PASS  |
++------------------------------------+--------------------------+------------------------------------------------------------+----------------------------+--------------+------+
+
+
+[SUCCESS] Data quality checks completed in 25.27 seconds.
+
+======================================================================
+STARTING: Gold business metrics
+Module: data_quality.gold.business_metrics
+======================================================================
+Created `olist_data_quality`.`gold`.`monthly_sales`: 25 rows
+Created `olist_data_quality`.`gold`.`order_status_summary`: 8 rows
+Created `olist_data_quality`.`gold`.`payment_type_summary`: 5 rows
+Created `olist_data_quality`.`gold`.`delivery_performance`: 1 rows
+
+Gold analytics build completed.
+
+Monthly sales preview:
++-------------------+------------+------------+---------------+----------+------------------------------+
+|order_month        |total_orders|item_revenue|freight_revenue|items_sold|average_item_revenue_per_order|
++-------------------+------------+------------+---------------+----------+------------------------------+
+|2016-09-01 00:00:00|4           |267.36      |87.39          |6         |66.84                         |
+|2016-10-01 00:00:00|324         |49507.66    |7301.18        |363       |152.80                        |
+|2016-12-01 00:00:00|1           |10.90       |8.72           |1         |10.90                         |
+|2017-01-01 00:00:00|800         |120312.87   |16875.62       |955       |150.39                        |
+|2017-02-01 00:00:00|1780        |247303.02   |38977.60       |1951      |138.93                        |
+|2017-03-01 00:00:00|2682        |374344.30   |57704.29       |3000      |139.58                        |
+|2017-04-01 00:00:00|2404        |359927.23   |52495.01       |2684      |149.72                        |
+|2017-05-01 00:00:00|3700        |506071.14   |80119.81       |4136      |136.78                        |
+|2017-06-01 00:00:00|3245        |433038.60   |69924.44       |3583      |133.45                        |
+|2017-07-01 00:00:00|4026        |498031.48   |86940.14       |4519      |123.70                        |
+|2017-08-01 00:00:00|4331        |573971.68   |94232.92       |4910      |132.53                        |
+|2017-09-01 00:00:00|4285        |624401.69   |95997.22       |4831      |145.72                        |
++-------------------+------------+------------+---------------+----------+------------------------------+
+only showing top 12 rows
+
+Delivery performance:
++----------------+---------------------+---------------------+------------------------+
+|delivered_orders|average_delivery_days|orders_delivered_late|orders_delivered_on_time|
++----------------+---------------------+---------------------+------------------------+
+|96476           |12.5                 |6535                 |89941                   |
++----------------+---------------------+---------------------+------------------------+
+
+
+[SUCCESS] Gold business metrics completed in 24.63 seconds.
+
+======================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+Pipeline run ID: 3a9d869b-a7e7-48ef-bb39-66a2e8683339
+Total duration: 127.52 seconds
+Stage logs saved to: `olist_data_quality`.`gold`.`pipeline_run_log`
+======================================================================
